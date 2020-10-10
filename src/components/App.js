@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -124,21 +125,32 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Header />
-      <Main
-        cards={cards}
-        onEditProfile={handleEditProfileClick}
-        onAddPlace={handleAddPlaceClick}
-        onEditAvatar={handleEditAvatarClick}
-        onCardClick={handleCardClick}
-        onCardLike={handleCardLike}
-        onCardDelete={handleCardDelete}
-        onClose={closeAllPopups}
-        isEditProfilePopupOpen={isEditProfilePopupOpen}
-        isAddPlacePopupOpen={isAddPlacePopupOpen}
-        isEditAvatarPopupOpen={isEditAvatarPopupOpen}
-        selectedCard={selectedCard}
-      />
-      <Footer />
+      <Switch>
+        <Route exact path='/'>
+          <Main
+            cards={cards}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+            onClose={closeAllPopups}
+            isEditProfilePopupOpen={isEditProfilePopupOpen}
+            isAddPlacePopupOpen={isAddPlacePopupOpen}
+            isEditAvatarPopupOpen={isEditAvatarPopupOpen}
+            selectedCard={selectedCard}
+          />
+          <Footer />
+        </Route>
+        <Route path='/signin'>
+          <div className=''>Sing in here</div>
+        </Route>
+        <Route path='/signup'>
+          <div className=''>Sing up here</div>
+        </Route>
+      </Switch>
+
       <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
@@ -155,8 +167,8 @@ function App() {
         onAddPlace={handleAddPlace}
       />
       <PopupWithForm
-        name="confirmation"
-        title="Are you sure?"
+        name='confirmation'
+        title='Are you sure?'
         isOpen={false}
         onClose={closeAllPopups}
       />
