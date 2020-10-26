@@ -1,9 +1,9 @@
-import React from "react";
-import PopupWithForm from "./PopupWithForm";
+import React from 'react';
+import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup(props) {
-    const [title, setTitle] = React.useState("");
-    const [link, setLink] = React.useState("");
+    const [title, setTitle] = React.useState('');
+    const [link, setLink] = React.useState('');
 
     function handleTitleChange(e) {
       setTitle(e.target.value);
@@ -19,40 +19,40 @@ function AddPlacePopup(props) {
     }
 return (
   <PopupWithForm
-    name="add-card"
-    title="New place"
+    name='add-card'
+    title='New place'
     isOpen={props.isOpen}
     onClose={props.onClose}
     onSubmit={handleSubmit}
   >
-    <fieldset className="form__fields">
+    <fieldset className='form__fields'>
       <input
-        type="text"
-        className="form__input form__card-title"
-        id="card-input"
-        name="title"
-        placeholder="Title"
-        minLength="1"
-        maxLength="30"
+        type='text'
+        className='form__input form__card-title'
+        id='card-input'
+        name='title'
+        placeholder='Title'
+        minLength='1'
+        maxLength='30'
         required
         onChange={handleTitleChange}
       />
-      <span className="form__input-error" id="card-input-error"></span>
+      <span className='form__input-error' id='card-input-error'></span>
       <input
-        type="url"
-        className="form__input form__image-link"
-        id="link-input"
-        name="link"
-        placeholder="Image link"
+        type='url'
+        className='form__input form__image-link'
+        id='link-input'
+        name='link'
+        placeholder='Image link'
         required
         onChange={handleLinkChange}
       />
-      <span className="form__input-error" id="link-input-error"></span>
+      <span className='form__input-error' id='link-input-error'></span>
       <button
-        className="form__submit-button"
-        type="submit"
-        value="Create"
-        aria-label="Create button"
+        className='form__submit-button'
+        type='submit'
+        value='Create'
+        aria-label='Create button'
       >
         Create
       </button>

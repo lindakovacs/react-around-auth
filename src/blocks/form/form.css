@@ -13,6 +13,10 @@
 @import url(./__submit-button/_disabled/form__submit-button_disabled.css);
 @import url(./__input/-error_visible/form__input-error_visible.css);
 @import url(./__fields/-delete/form__fields-delete.css);
+@import url(./__title/form__title.css);
+@import url(./__tooltip/form__tooltip.css);
+@import url(./__submit-button/_dark/form__submit-button_dark.css);
+@import url(./__input/-dark/form__input-dark.css);
 
 .form {
   position: fixed;

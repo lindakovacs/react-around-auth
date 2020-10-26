@@ -1,8 +1,8 @@
 import React from 'react';
-import PopupWithForm from "./PopupWithForm";
+import PopupWithForm from './PopupWithForm';
 
 function EditAvatarPopup(props) {
-    const avatarRef = React.useRef("");
+    const avatarRef = React.useRef('');
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -13,30 +13,30 @@ function EditAvatarPopup(props) {
 
     return (
       <PopupWithForm
-        name="change-image"
-        title="Change profile picture"
+        name='change-image'
+        title='Change profile picture'
         // isOpen={props.isEditAvatarPopupOpen}
         isOpen={props.isOpen}
         onClose={props.onClose}
         onSubmit={handleSubmit}
       >
-        <fieldset className="form__fields">
+        <fieldset className='form__fields'>
           <input
-            type="url"
-            className="form__input form__image-link"
-            id="linkImage-input"
-            name="imageLink"
-            placeholder="Image link"
-            minLength="2"
+            type='url'
+            className='form__input form__image-link'
+            id='linkImage-input'
+            name='imageLink'
+            placeholder='Image link'
+            minLength='2'
             required
             ref={avatarRef}
           />
-          <span className="form__input-error" id="linkImage-input-error"></span>
+          <span className='form__input-error' id='linkImage-input-error'></span>
           <button
-            className="form__submit-button"
-            type="submit"
-            value="Save"
-            aria-label="Save button"
+            className='form__submit-button'
+            type='submit'
+            value='Save'
+            aria-label='Save button'
           >
             Save
           </button>

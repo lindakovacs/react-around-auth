@@ -1,11 +1,11 @@
-import React from "react";
-import PopupWithForm from "./PopupWithForm";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import React, { useState } from 'react';
+import PopupWithForm from './PopupWithForm';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function EditProfilePopup(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  const [name, setName] = React.useState();
-  const [description, setDescription] = React.useState();
+  const [name, setName] = useState();
+  const [description, setDescription] = useState();
 
     // After loading the current user from the API
   // their data will be used in managed components.
@@ -33,47 +33,47 @@ function EditProfilePopup(props) {
 
   return (
     <PopupWithForm
-      name="edit-profile"
-      title="Edit profile"
+      name='edit-profile'
+      title='Edit profile'
       // isOpen={props.isEditProfilePopupOpen}
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
     >
-      <fieldset className="form__fields">
+      <fieldset className='form__fields'>
         <input
-          type="text"
-          className="form__input form__title"
-          id="name-input"
-          name="name"
-          placeholder="Name"
-          minLength="2"
-          maxLength="40"
+          type='text'
+          className='form__input form__title'
+          id='name-input'
+          name='name'
+          placeholder='Name'
+          minLength='2'
+          maxLength='40'
           required
-          value={name || ""}
+          value={name || ''}
           onChange={handleNameChange}
         />
-        <span className="form__input-error" id="name-input-error"></span>
+        <span className='form__input-error' id='name-input-error'></span>
 
         <input
-          type="text"
-          className="form__input form__subtitle"
-          id="job-input"
-          name="job"
-          placeholder="Job"
-          minLength="2"
-          maxLength="200"
+          type='text'
+          className='form__input form__subtitle'
+          id='job-input'
+          name='job'
+          placeholder='Job'
+          minLength='2'
+          maxLength='200'
           required
-          value={description || ""}
+          value={description || ''}
           onChange={handleDescriptionChange}
         />
-        <span className="form__input-error" id="job-input-error"></span>
+        <span className='form__input-error' id='job-input-error'></span>
 
         <button
-          className="form__submit-button"
-          type="submit"
-          value="Save"
-          aria-label="Save button"
+          className='form__submit-button'
+          type='submit'
+          value='Save'
+          aria-label='Save button'
         >
           Save
         </button>
