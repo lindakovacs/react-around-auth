@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import auth from '../utils/auth';
 
@@ -12,24 +13,44 @@ function Register(props) {
     setPassword('');
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    auth
+      .register({ email, password })
+      .then((res, data) => {
+        if (!data) {
+          props.handleToolTip('error');
+          throw new Error(`400 - ${res.message ? res.message : res.error}`);
+        }
+      })
+      // .then((res) => {
+      //   history.push('/signin');
+      //   return res;
+      // })
+      .then((res) => {
+        props.handleToolTip('success');
+        return res;
+      })
+      .then(resetForm)
+      .then(() => {
+        history.push('/signin');
+        props.handleSignup();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  //  useEffect(() => {
+  //    if (props.loggedIn) {
+  //      history.push('/');
+  //    }
+  //  });
+   
   // const handleSubmit = (e) => {
   //   e.preventDefault();
   //   auth
   //     .register({ email, password })
-  //     .then((res, data) => {
-  //       if (!data) {
-  //         props.handleToolTip('error');
-  //         throw new Error(`400 - ${res.message ? res.message : res.error}`);
-  //       }
-  //     })
-  //     .then((res) => {
-  //       history.push('/signin');
-  //       return res;
-  //     })
-  //     .then((res) => {
-  //       props.handleToolTip('success');
-  //       return res;
-  //     })
   //     .then(resetForm)
   //     .then(() => {
   //       history.push('/signin');
@@ -37,22 +58,15 @@ function Register(props) {
   //     })
   //     .catch((err) => {
   //       console.log(err);
+  //       props.onFail();
   //     });
   // };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    auth
-      .register({ email, password })
-      .then(resetForm)
-      .then(() => {
-        history.push('/signin');
-        props.onSuccess();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      history.push('/');
+    }
+  }, [history]);
 
   return (
     <>
@@ -84,7 +98,7 @@ function Register(props) {
             type='submit'
             className='form__submit-button_dark'
             onSubmit={handleSubmit}
-            to='/main'
+            to='/'
           >
             Sign up
           </button>
@@ -97,6 +111,108 @@ function Register(props) {
   );
 }
 export default Register; 
+
+
+// import React, { useState } from 'react';
+// import { Link, useHistory } from 'react-router-dom';
+// import auth from '../utils/auth';
+
+// function Register(props) {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+//   const history = useHistory();
+
+//   const resetForm = () => {
+//     setEmail('');
+//     setPassword('');
+//   };
+
+//   // const handleSubmit = (e) => {
+//   //   e.preventDefault();
+//   //   auth
+//   //     .register({ email, password })
+//   //     .then((res, data) => {
+//   //       if (!data) {
+//   //         props.handleToolTip('error');
+//   //         throw new Error(`400 - ${res.message ? res.message : res.error}`);
+//   //       }
+//   //     })
+//   //     .then((res) => {
+//   //       history.push('/signin');
+//   //       return res;
+//   //     })
+//   //     .then((res) => {
+//   //       props.handleToolTip('success');
+//   //       return res;
+//   //     })
+//   //     .then(resetForm)
+//   //     .then(() => {
+//   //       history.push('/signin');
+//   //       props.onSuccess();
+//   //     })
+//   //     .catch((err) => {
+//   //       console.log(err);
+//   //     });
+//   // };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     auth
+//       .register({ email, password })
+//       .then(resetForm)
+//       .then(() => {
+//         history.push('/signin');
+//         props.onSuccess();
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+
+//   return (
+//     <>
+//       <div className='auth__container'>
+//         <h2 className='auth__title'>Sign up</h2>
+//         <form
+//           action='#'
+//           className='auth'
+//           title='Sign up'
+//           onSubmit={handleSubmit}
+//         >
+//           <input
+//             className='form__input-dark'
+//             placeholder='Email'
+//             type='email'
+//             required
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//           />
+//           <input
+//             className='form__input-dark'
+//             placeholder='Password'
+//             type='password'
+//             required
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//           />
+//           <button
+//             type='submit'
+//             className='form__submit-button_dark'
+//             onSubmit={handleSubmit}
+//             to='/main'
+//           >
+//             Sign up
+//           </button>
+//         </form>
+//         <Link className='auth__link' to='/signin'>
+//           Already a member? Log in here!
+//         </Link>
+//       </div>
+//     </>
+//   );
+// }
+// export default Register; 
+
 
 
 // import React from 'react';
