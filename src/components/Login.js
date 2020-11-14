@@ -1,5 +1,4 @@
-// import React, { useState } from 'react';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import auth from '../utils/auth';
 
@@ -15,9 +14,6 @@ function Login(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      return;
-    }
     auth
       .authorize(email, password)
       .then((data) => {
@@ -28,8 +24,10 @@ function Login(props) {
           throw new Error('401 - the user with the specified email not found');
         }
         if (data.token) {
+          localStorage.setItem('token', data.token);
           props.handleLogin();
         }
+        return data;
       })
       .then((data) => {
         localStorage.setItem('token', data.token);
@@ -40,21 +38,9 @@ function Login(props) {
       })
       .then(() => history.push('/'))
       .catch((err) => {
-        console.log(err.message);
+        console.log(err);
       });
   };
-
-  // useEffect(() => {
-  //   if (props.loggedIn) {
-  //     history.push('/');
-  //   }
-  // });
-
-	useEffect(() => {
-    if (localStorage.getItem('token')) {
-      history.push('/');
-    }
-  }, [history]);
 
   return (
     <>
@@ -101,47 +87,69 @@ function Login(props) {
 export default Login; 
 
 
-
-// import React, { useState } from 'react';
+// // import React, { useState } from 'react';
+// import React, { useState, useEffect } from 'react';
 // import { Link, useHistory } from 'react-router-dom';
-// import auth from '../utils/auth';
+// // import auth from '../utils/auth';
 
-// function Login(props) {
+// function Login({
+//   loggedIn,
+//   userEmail,
+//   setUserEmail,
+//   handleLoginSubmit,
+// }) {
 //   const [email, setEmail] = useState('');
 //   const [password, setPassword] = useState('');
 //   const history = useHistory();
 
-//   const resetForm = () => {
-//     setEmail('');
-//     setPassword('');
-//   };
+//   // const resetForm = () => {
+//   //   setEmail('');
+//   //   setPassword('');
+//   // };
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     auth.authorize(email, password)
-//     .then((data) => {
-//       if (!email || !password) {
-//         throw new Error('400 - one or more of the fields were not provided');
-//       }
-//       if (!data) {
-//         throw new Error('401 - the user with the specified email not found');
-//       }
-//       if (data.token) {
-//         props.handleLogin();
-//       }
-//       })
-//       .then((data) => {
-//         localStorage.setItem('token', data.token);
-//         props.onLogin(email);
-//       })
-//       .then(() => {
-//         resetForm();
-//       })
-//       .then(() => history.push('/'))
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
+//   // const handleSubmit = (e) => {
+//   //   e.preventDefault();
+//   //   if (!email || !password) {
+//   //     return;
+//   //   }
+//   //   auth
+//   //     .authorize(email, password)
+//   //     .then((data) => {
+//   //       // if (!email || !password) {
+//   //       //   throw new Error('400 - one or more of the fields were not provided');
+//   //       // }
+//   //       // if (!data) {
+//   //       //   throw new Error('401 - the user with the specified email not found');
+//   //       // }
+//   //       if (data.token) {
+//   //         props.handleLogin();
+//   //       }
+//   //     })
+//   //     .then((data) => {
+//   //       localStorage.setItem('token', data.token);
+//   //       props.handleLogin(email);
+//   //     })
+//   //     .then(() => {
+//   //       resetForm();
+//   //     })
+//   //     .then(() => history.push('/'))
+//   //     .catch((err) => {
+//   //       console.log(err.message);
+//   //     });
+//   // };
+
+//   useEffect(() => {
+//     if (loggedIn) {
+//       history.push('/');
+//     }
+//   });
+
+//   useEffect(() => {
+//     if (localStorage.getItem('token')) {
+//       history.push('/');
+//       setUserEmail(email || userEmail);
+//     }
+//   }, [history, email, loggedIn, userEmail, setUserEmail]);
 
 //   return (
 //     <>
@@ -151,7 +159,7 @@ export default Login;
 //           action='#'
 //           className='auth'
 //           title='Log in'
-//           onSubmit={handleSubmit}
+//           // onSubmit={handleLoginSubmit}
 //         >
 //           <input
 //             className='form__input-dark'
@@ -172,7 +180,7 @@ export default Login;
 //           <button
 //             type='submit'
 //             className='form__submit-button_dark'
-//             onClick={handleSubmit}
+//             onClick={handleLoginSubmit}
 //             to='/main'
 //           >
 //             Log in
@@ -186,6 +194,9 @@ export default Login;
 //   );
 // }
 // export default Login; 
+
+
+
 
 
 
