@@ -46,7 +46,7 @@ The website was made up according to the Figma layout requirements:
    https://www.figma.com/file/avLHzpJw2dmU2NaDATZ6CX/Sprint-5%3A-Around-The-U.S.-%2F-desktop-%2B-mobile?node-id=0%3A1)
 * [Link to the project in Figma - 3](
    https://www.figma.com/file/KUbYgXnYElfzxCbcrlsOCE/Sprint-6%3A-Around-The-U.S.?node-id=0%3A1)
-   * [Link to the project in Figma - 4](https://www.figma.com/file/PJbelNQkbotPz2M1Lth55j/Sprint-14-EN?node-id=0%3A1)
+* [Link to the project in Figma - 4](https://www.figma.com/file/PJbelNQkbotPz2M1Lth55j/Sprint-14-EN?node-id=0%3A1)
 * Export images directly from Figma and optimize them [here](https://tinypng.com/), so your project loads faster. 
 
 **Images**
