@@ -1,40 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import auth from '../utils/auth';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+// import React, { useState, useEffect } from 'react';
+// import { Link, useHistory } from 'react-router-dom';
+// import auth from '../utils/auth';
 
-function Register(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const history = useHistory();
+function Register({
+  registered,
+  handleRegisterSubmit,
+  history,
+  email,
+  setEmail,
+  password,
+  setPassword,
+}) {
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const history = useHistory();
 
-  const resetForm = () => {
-    setEmail('');
-    setPassword('');
-  };
+  // const resetForm = () => {
+  //   setEmail('');
+  //   setPassword('');
+  // };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    auth
-      .register({ email, password })
-      .then(resetForm)
-      .then((res) => {
-        props.handleToolTip('success');
-        return res;
-      })
-      .then((res) => {
-        history.push('/signin');
-        return res;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   auth
+  //     .register({ email, password })
+  //     .then(resetForm)
+  //     .then((res) => {
+  //       props.handleToolTip('success');
+  //       return res;
+  //     })
+  //     .then((res) => {
+  //       history.push('/signin');
+  //       return res;
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
       history.push('/main');
     }
   }, [history]);
+
+  // useEffect(() => {
+  //   if (registered) {
+  //     history.push('/signin');
+  //   }
+  // }, [history, registered]);
 
   return (
     <>
@@ -44,7 +60,7 @@ function Register(props) {
           action='#'
           className='auth'
           title='Sign up'
-          onSubmit={handleSubmit}
+          onSubmit={handleRegisterSubmit}
         >
           <input
             className='form__input-dark'
@@ -65,7 +81,7 @@ function Register(props) {
           <button
             type='submit'
             className='form__submit-button_dark'
-            onSubmit={handleSubmit}
+            onSubmit={handleRegisterSubmit}
             to='/main'
           >
             Sign up

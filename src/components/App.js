@@ -22,12 +22,16 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
 
-  const [selectedCard, setSelectedCard] = useState();
+  const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [tooltipMode, setTooltipMode] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [registered, setRegistered] = useState(false);
+
   const history = useHistory();
 
   function handleEditProfileClick() {
@@ -62,9 +66,8 @@ function App() {
         setCurrentUser(updateProfile);
         setIsEditProfilePopupOpen(false);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => closeAllPopups())
+      .catch((err) => console.log(err));
   }
 
   function handleUpdateAvatar({ avatar }) {
@@ -74,9 +77,8 @@ function App() {
         setCurrentUser(updateProfile);
         setIsEditAvatarPopupOpen(false);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => closeAllPopups())
+      .catch((err) => console.log(err));
   }
 
   function handleCardLike(card) {
@@ -92,9 +94,7 @@ function App() {
         // Update the state
         setCards(newCards);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   }
 
   function handleCardDelete(card) {
@@ -104,34 +104,25 @@ function App() {
       .then(() => {
         setCards(cards.filter((c) => c._id !== card._id));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => closeAllPopups())
+      .catch((err) => console.log(err));
   }
 
   function handleAddPlace({ title, link }) {
-    api.addNewCard({ title, link }).then((newCard) => {
-      setCards([...cards, newCard]);
-    });
-    closeAllPopups();
+    api
+      .addNewCard({ title, link })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+      })
+      .then((res) => closeAllPopups())
+      .catch((err) => console.log(err));
   }
 
-
   useEffect(() => {
     if (loggedIn) {
-      api
-        .getUserInfo()
-        .then((userProfile) => {
-          setCurrentUser(userProfile);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [loggedIn]);
-
-  useEffect(() => {
-    if (loggedIn) {
+      api.getUserInfo().then((userProfile) => {
+        setCurrentUser(userProfile);
+      });
       api
         .getInitialCards()
         .then((data) => {
@@ -141,19 +132,79 @@ function App() {
         })
         .catch((err) => {
           console.log(err);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     }
   }, [loggedIn]);
 
-function handleLogin() {
-  setLoggedIn(true);
-}
+  function resetForm() {
+    setEmail('');
+    setPassword('');
+  };
 
-function handleLogout() {
-  localStorage.removeItem('token');
-  setLoggedIn(false);
-  history.push('/signin');
-}
+  function handleLogin() {
+    setLoggedIn(true);
+  }
+
+  function handleLoginSubmit(e) {
+    e.preventDefault();
+    // const [email, password] = [e.target.email.value, e.target.password.value];
+    auth
+      .authorize(email, password)
+      .then((data) => {
+        if (data && data.token) {
+          handleLogin();
+        } else {
+          resetForm();
+          if (!email || !password) {
+            throw new Error(
+              '400 - one or more of the fields were not provided'
+            );
+          }
+          if (!data) {
+            throw new Error(
+              '401 - the user with the specified email not found'
+            );
+          }
+        }
+      })
+      .then(resetForm)
+      .then(() => history.push('/main'))
+      .catch((err) => console.log(err.message));
+  };
+
+  function handleRegisterSubmit (e) {
+    e.preventDefault();
+    auth
+      .register(email, password)
+      .then((res) => {
+        if (!res.data) {
+          handleToolTip('error');
+          throw new Error(`400 - ${res.message ? res.message : res.error}`);
+        }
+      })
+      .then((res) => {
+        setRegistered(true);
+        history.push('/signin');
+        return res;
+      })
+      .then((res) => {
+        handleToolTip('success');
+        return res;
+      })
+      .then(resetForm)
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  function handleLogout() {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    history.push('/signin');
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -178,17 +229,25 @@ function handleLogout() {
       <Switch>
         <Route exact path='/signin'>
           <Header
+            userEmail={userEmail}
             loggedIn={loggedIn}
+            onLogout={handleLogout}
             link={{ description: 'Sign up', to: '/signup' }}
           />
           <Login
             loggedIn={loggedIn}
-            success={tooltipMode}
-            handleLogin={handleLogin}
-            onLogout={handleLogout}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            userEmail={setUserEmail}
             setUserEmail={setUserEmail}
+            handleLogin={handleLogin}
+            handleLoginSubmit={handleLoginSubmit}
+            onLogout={handleLogout}
             isOpen={isInfoToolTipOpen}
             handleToolTip={handleToolTip}
+            success={tooltipMode}
           />
           <InfoToolTip
             isOpen={isInfoToolTipOpen}
@@ -204,8 +263,14 @@ function handleLogout() {
             link={{ description: 'Log in', to: '/signin' }}
           />
           <Register
-            handleLogin={handleLogin}
+            registered={registered}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            handleRegisterSubmit={handleRegisterSubmit}
             setUserEmail={setUserEmail}
+            handleLogin={handleLogin}
             handleToolTip={handleToolTip}
           />
           <InfoToolTip
@@ -265,10 +330,11 @@ function handleLogout() {
             selectedCard={selectedCard}
             cards={cards}
           />
+          <Footer />
         </Route>
+        {/* {loggedIn && <Footer />} */}
+        <Redirect from='*' to='/' />
       </Switch>
-
-      {loggedIn && <Footer />}
     </CurrentUserContext.Provider>
   );
 }

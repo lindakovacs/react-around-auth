@@ -6,7 +6,7 @@ function Header(props) {
   return (
     <header className='header'>
       <img className='header__logo' src={logo} alt='logo' />
-      <p className='header__email'>{props.loggedIn ? props.email : ''}</p>
+      <p className='header__email'>{props.loggedIn ? props.userEmail : ''}</p>
       <Link
         to={props.link.to}
         className='header__link'

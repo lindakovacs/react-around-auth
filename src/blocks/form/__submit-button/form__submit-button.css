@@ -10,7 +10,7 @@
     background-color: #000000;
     border-radius: 2px;
     border: 0;
-    /* margin-top: 36px; */
+    margin-top: 36px;
 }
 .form__submit-button:hover {
     opacity: .8;
