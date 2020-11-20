@@ -53,7 +53,7 @@ The website was made up according to the Figma layout requirements:
 
 All the images and profile info are pulled from the shared server.
 
-[Demo link](https://lindakovacs.github.io/react-around-auth) - TBD
+[Demo link](https://lindakovacs.github.io/react-around-auth/)
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
