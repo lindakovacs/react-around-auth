@@ -15,6 +15,7 @@ function EditAvatarPopup(props) {
       <PopupWithForm
         name='change-image'
         title='Change profile picture'
+        buttonText='Save'
         // isOpen={props.isEditAvatarPopupOpen}
         isOpen={props.isOpen}
         onClose={props.onClose}
@@ -32,14 +33,6 @@ function EditAvatarPopup(props) {
             ref={avatarRef}
           />
           <span className='form__input-error' id='linkImage-input-error'></span>
-          <button
-            className='form__submit-button'
-            type='submit'
-            value='Save'
-            aria-label='Save button'
-          >
-            Save
-          </button>
         </fieldset>
       </PopupWithForm>
     );

@@ -15,14 +15,20 @@ function PopupWithForm(props) {
           noValidate
           onSubmit={props.onSubmit}
         >
+          <h2 className='form__title'>{props.title}</h2>
+          {props.children}
+          <button
+            className='form__submit-button'
+            type='submit'
+          >
+            {props.buttonText}
+          </button>
           <button
             className='form__reset-button'
             type='reset'
             aria-label='Close button'
             onClick={props.onClose}
           ></button>
-          <h2 className='form__header'>{props.title}</h2>
-          {props.children}
         </form>
       </section>
     </>

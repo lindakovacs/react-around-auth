@@ -35,6 +35,7 @@ function EditProfilePopup(props) {
     <PopupWithForm
       name='edit-profile'
       title='Edit profile'
+      buttonText='Save'
       // isOpen={props.isEditProfilePopupOpen}
       isOpen={props.isOpen}
       onClose={props.onClose}
@@ -68,15 +69,6 @@ function EditProfilePopup(props) {
           onChange={handleDescriptionChange}
         />
         <span className='form__input-error' id='job-input-error'></span>
-
-        <button
-          className='form__submit-button'
-          type='submit'
-          value='Save'
-          aria-label='Save button'
-        >
-          Save
-        </button>
       </fieldset>
     </PopupWithForm>
   );

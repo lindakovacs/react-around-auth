@@ -21,6 +21,7 @@ return (
   <PopupWithForm
     name='add-card'
     title='New place'
+    buttonText='Create'
     isOpen={props.isOpen}
     onClose={props.onClose}
     onSubmit={handleSubmit}
@@ -48,14 +49,6 @@ return (
         onChange={handleLinkChange}
       />
       <span className='form__input-error' id='link-input-error'></span>
-      <button
-        className='form__submit-button'
-        type='submit'
-        value='Create'
-        aria-label='Create button'
-      >
-        Create
-      </button>
     </fieldset>
   </PopupWithForm>
 );
